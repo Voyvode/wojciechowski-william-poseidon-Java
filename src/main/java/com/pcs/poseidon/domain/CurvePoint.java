@@ -5,7 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "curve_points")
@@ -23,6 +23,7 @@ public class CurvePoint {
 	@Positive
 	Double term;
 	Double value;
-	Timestamp creationDate;
+	@NotNull
+	LocalDateTime creationDate;
 
 }

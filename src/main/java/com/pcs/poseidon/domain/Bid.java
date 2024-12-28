@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bids")
@@ -25,16 +25,16 @@ public class Bid {
 	Double bid;
 	Double ask;
 	String benchmark;
-	Timestamp bidListDate;
+	LocalDateTime bidListDate;
 	String commentary;
 	String security;
 	String status;
 	String trader;
 	String book;
 	String creationName;
-	Timestamp creationDate;
+	LocalDateTime creationDate;
 	String revisionName;
-	Timestamp revisionDate;
+	LocalDateTime revisionDate;
 	String dealName;
 	String dealType;
 	String sourceListId;

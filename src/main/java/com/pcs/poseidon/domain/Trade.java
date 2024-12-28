@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "trades")
@@ -22,15 +22,15 @@ public class Trade {
 	Double buyPrice;
 	Double sellPrice;
 	String benchmark;
-	Timestamp tradeDate;
+	LocalDateTime tradeDate;
 	String security;
 	String status;
 	String trader;
 	String book;
 	String creationName;
-	Timestamp creationDate;
+	LocalDateTime creationDate;
 	String revisionName;
-	Timestamp revisionDate;
+	LocalDateTime revisionDate;
 	String dealName;
 	String dealType;
 	String sourceListId;
