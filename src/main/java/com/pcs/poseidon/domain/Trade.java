@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 public class Trade {
 
 	@Id
-	Integer id;
+	Long id;
 	String account;
 	String type;
 	Double buyQuantity;

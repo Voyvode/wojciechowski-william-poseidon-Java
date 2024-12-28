@@ -11,7 +11,7 @@ import lombok.Data;
 public class Rule {
 
 	@Id
-	Integer id;
+	Long id;
 	String name;
 	String description;
 	String json;

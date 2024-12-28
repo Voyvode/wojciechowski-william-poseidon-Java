@@ -13,9 +13,14 @@ import java.sql.Timestamp;
 public class CurvePoint {
 
 	@Id
-	Integer id;
-	Integer curveId;
-	Timestamp asOfDate;
+	@GeneratedValue(strategy= GenerationType.AUTO)
+	Long id;
+	@NotNull(message = "Must not be null")
+	Long curveId;
+	@NotNull
+	LocalDateTime asOfDate;
+	@NotNull
+	@Positive
 	Double term;
 	Double value;
 	Timestamp creationDate;

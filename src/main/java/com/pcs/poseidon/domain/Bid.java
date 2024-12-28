@@ -16,7 +16,8 @@ public class Bid {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	Integer id;
+	Long id;
+	@NotBlank(message = "Account is mandatory")
 	String account;
 	String type;
 	Double bidQuantity;

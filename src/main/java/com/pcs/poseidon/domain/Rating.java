@@ -13,10 +13,10 @@ import lombok.Data;
 public class Rating {
 
 	@Id
-	Integer id;
+	Long id;
 	String moodysRating;
 	String sandpRating;
 	String fitchRating;
-	Integer orderNumber;
+	Long orderNumber;
 
 }
