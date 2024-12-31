@@ -1,6 +1,8 @@
 package com.pcs.poseidon.controllers;
 
 import com.pcs.poseidon.domain.Trade;
+import com.pcs.poseidon.repositories.TradeRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,44 +14,66 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 
+import java.time.LocalDateTime;
+
+/**
+ * The CRUD controller handling HTTP requests for Trade data management.
+ */
 @Controller
+@RequiredArgsConstructor
 @Slf4j
 public class TradeController {
-    // TODO: Inject Trade service
+
+    private final TradeRepository tradeRepository;
 
     @RequestMapping("/trades/list")
     public String home(Model model) {
-        // TODO: find all Trade, add to model
+        model.addAttribute("trades", tradeRepository.findAll());
         return "trades/list";
     }
 
     @GetMapping("/trades/add")
-    public String addUser(Trade bid) {
+    public String add(Trade trade) {
         return "trades/add";
     }
 
     @PostMapping("/trades/validate")
     public String validate(@Valid Trade trade, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Trade list
+        if (!result.hasErrors()) {
+            trade.setCreationDate(LocalDateTime.now());
+            tradeRepository.save(trade);
+            model.addAttribute("trades", tradeRepository.findAll());
+            return "redirect:/trades/list";
+        }
         return "trades/add";
     }
 
     @GetMapping("/trades/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get Trade by Id and to model then show to the form
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+        var trade = tradeRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("Invalid trade id:" + id));
+        model.addAttribute("trade", trade);
         return "trades/update";
     }
 
     @PostMapping("/trades/update/{id}")
-    public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade,
-                             BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Trade and return Trade list
+    public String update(@PathVariable("id") Long id, @Valid Trade trade,
+                         BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "rules/update";
+        }
+        trade.setRevisionDate(LocalDateTime.now());
+        tradeRepository.save(trade);
+        model.addAttribute("trades", tradeRepository.findAll());
         return "redirect:/trades/list";
     }
 
     @GetMapping("/trades/delete/{id}")
-    public String deleteTrade(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Trade by Id and delete the Trade, return to Trade list
+    public String delete(@PathVariable("id") Long id, Model model) {
+        var trade = tradeRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("Invalid trade id:" + id));
+        tradeRepository.delete(trade);
+        model.addAttribute("trades", tradeRepository.findAll());
         return "redirect:/trades/list";
     }
 
