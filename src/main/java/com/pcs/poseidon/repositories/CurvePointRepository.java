@@ -1,10 +1,11 @@
 package com.pcs.poseidon.repositories;
 
-import com.pcs.poseidon.domain.CurvePoint;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.pcs.poseidon.domain.CurvePoint;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CurvePointRepository extends JpaRepository<CurvePoint, Integer> {
+public interface CurvePointRepository extends JpaRepository<CurvePoint, Long> {
 
 }
