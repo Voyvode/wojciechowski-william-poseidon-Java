@@ -21,11 +21,14 @@ public class BidTests {
 
 	@Test
 	public void bidListTest() {
-		Bid bid = new Bid("Account Test", "Type Test", 10d);
+		var bid = new Bid();
+		bid.setType("Type Test");
+		bid.setAccount("Account Test");
+		bid.setBidQuantity(10d);
 
 		// Save
 		bid = bidRepository.save(bid);
-		Assert.assertNotNull(bid.getBidListId());
+		Assert.assertNotNull(bid.getId());
 		Assert.assertEquals(bid.getBidQuantity(), 10d, 10d);
 
 		// Update
@@ -38,7 +41,7 @@ public class BidTests {
 		Assert.assertTrue(listResult.size() > 0);
 
 		// Delete
-		Integer id = bid.getBidListId();
+		var id = bid.getId();
 		bidRepository.delete(bid);
 		Optional<Bid> bidList = bidRepository.findById(id);
 		Assert.assertFalse(bidList.isPresent());

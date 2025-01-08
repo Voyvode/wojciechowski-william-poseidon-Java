@@ -21,7 +21,11 @@ public class RatingTests {
 
 	@Test
 	public void ratingTest() {
-		Rating rating = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
+		var rating = new Rating();
+		rating.setMoodysRating("Moody's Rating");
+		rating.setSandpRating("s&P Rating");
+		rating.setFitchRating("Fitch Rating");
+		rating.setOrderNumber(10L);
 
 		// Save
 		rating = ratingRepository.save(rating);
@@ -29,7 +33,7 @@ public class RatingTests {
 		Assert.assertTrue(rating.getOrderNumber() == 10);
 
 		// Update
-		rating.setOrderNumber(20);
+		rating.setOrderNumber(20L);
 		rating = ratingRepository.save(rating);
 		Assert.assertTrue(rating.getOrderNumber() == 20);
 
@@ -38,7 +42,7 @@ public class RatingTests {
 		Assert.assertTrue(listResult.size() > 0);
 
 		// Delete
-		Integer id = rating.getId();
+		var id = rating.getId();
 		ratingRepository.delete(rating);
 		Optional<Rating> ratingList = ratingRepository.findById(id);
 		Assert.assertFalse(ratingList.isPresent());

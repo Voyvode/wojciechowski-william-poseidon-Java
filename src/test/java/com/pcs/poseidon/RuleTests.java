@@ -21,7 +21,13 @@ public class RuleTests {
 
 	@Test
 	public void ruleTest() {
-		Rule rule = new Rule("Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");
+		var rule = new Rule();
+		rule.setName( "Rule Name");
+		rule.setDescription("Description");
+		rule.setJson("JSON");
+		rule.setTemplate("Template");
+		rule.setSqlStr("SQL");
+		rule.setSqlPart("SQL Part");
 
 		// Save
 		rule = ruleRepository.save(rule);
@@ -38,7 +44,7 @@ public class RuleTests {
 		Assert.assertTrue(listResult.size() > 0);
 
 		// Delete
-		Integer id = rule.getId();
+		var id = rule.getId();
 		ruleRepository.delete(rule);
 		Optional<Rule> ruleList = ruleRepository.findById(id);
 		Assert.assertFalse(ruleList.isPresent());
