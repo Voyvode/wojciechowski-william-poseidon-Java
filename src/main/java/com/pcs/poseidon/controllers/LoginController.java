@@ -14,10 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 public class LoginController {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @GetMapping("login")
     public ModelAndView login() {
+        log.info("Displaying login page");
         var mav = new ModelAndView();
         mav.setViewName("login");
         return mav;

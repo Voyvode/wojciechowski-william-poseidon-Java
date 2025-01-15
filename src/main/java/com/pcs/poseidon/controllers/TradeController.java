@@ -28,31 +28,38 @@ public class TradeController {
 
     @RequestMapping("/trades/list")
     public String home(Model model) {
+        log.info("Fetching list of all trades");
         model.addAttribute("trades", tradeRepository.findAll());
         return "trades/list";
     }
 
     @GetMapping("/trades/add")
-    public String add(Trade trade) {
+    public String add() {
+        log.info("Displaying trade add form");
         return "trades/add";
     }
 
     @PostMapping("/trades/validate")
     public String validate(@Valid Trade trade, BindingResult result, Model model) {
         if (!result.hasErrors()) {
+            log.info("Saving a new trade: {}", trade);
             trade.setCreationDate(LocalDateTime.now());
             tradeRepository.save(trade);
+            log.info("Trade saved successfully");
             model.addAttribute("trades", tradeRepository.findAll());
             return "redirect:/trades/list";
         }
+        log.warn("Validation failed for trade: {}", result.getFieldErrors());
         return "trades/add";
     }
 
     @GetMapping("/trades/update/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+        log.info("Fetching trade for update, ID: {}", id);
         var trade = tradeRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("Invalid trade id:" + id));
+                new IllegalArgumentException("Invalid trade id: " + id));
         model.addAttribute("trade", trade);
+        log.info("Displaying update form for trade, ID: {}", id);
         return "trades/update";
     }
 
@@ -60,19 +67,24 @@ public class TradeController {
     public String update(@PathVariable("id") Long id, @Valid Trade trade,
                          BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "rules/update";
+            log.warn("Validation errors occurred while updating trade, ID: {}: {}", id, result.getFieldErrors());
+            return "trades/update";
         }
+        log.info("Updating trade, ID: {}", id);
         trade.setRevisionDate(LocalDateTime.now());
         tradeRepository.save(trade);
+        log.info("Trade updated successfully, ID: {}", id);
         model.addAttribute("trades", tradeRepository.findAll());
         return "redirect:/trades/list";
     }
 
     @GetMapping("/trades/delete/{id}")
     public String delete(@PathVariable("id") Long id, Model model) {
+        log.info("Deleting trade, ID: {}", id);
         var trade = tradeRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("Invalid trade id:" + id));
+                new IllegalArgumentException("Invalid trade id: " + id));
         tradeRepository.delete(trade);
+        log.info("Trade deleted successfully, ID: {}", id);
         model.addAttribute("trades", tradeRepository.findAll());
         return "redirect:/trades/list";
     }

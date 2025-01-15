@@ -30,31 +30,38 @@ public class BidController {
 
 	@RequestMapping("/bids/list")
 	public String home(Model model) {
+		log.info("Fetching list of all bids");
 		model.addAttribute("bids", bidRepository.findAll());
 		return "bids/list";
 	}
 
 	@GetMapping("/bids/add")
-	public String addForm(Bid bid) {
+	public String addForm() {
+		log.info("Displaying bid add form");
 		return "bids/add";
 	}
 
 	@PostMapping("/bids/validate")
 	public String validate(@Valid Bid bid, BindingResult result, Model model) {
 		if (!result.hasErrors()) {
-			bid.setCreationDate(LocalDateTime.now ());
+			log.info("Saving a new bid: {}", bid);
+			bid.setCreationDate(LocalDateTime.now());
 			bidRepository.save(bid);
+			log.info("Bid saved successfully");
 			model.addAttribute("bids", bidRepository.findAll());
 			return "redirect:/bids/list";
 		}
+		log.warn("Validation errors occurred: {}", result.getFieldErrors());
 		return "bids/add";
 	}
 
 	@GetMapping("/bids/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+		log.info("Fetching bid for update, ID: {}", id);
 		var bid = bidRepository.findById(id).orElseThrow(() ->
-				new IllegalArgumentException("Invalid bid id:" + id));
+				new IllegalArgumentException("Invalid bid id: " + id));
 		model.addAttribute("bid", bid);
+		log.info("Displaying update form for bid, ID: {}", id);
 		return "bids/update";
 	}
 
@@ -62,19 +69,24 @@ public class BidController {
 	public String update(@PathVariable("id") Integer id, @Valid Bid bid,
 						 BindingResult result, Model model) {
 		if (result.hasErrors()) {
+			log.warn("Validation errors occurred while updating bid, ID: {}: {}", id, result.getFieldErrors());
 			return "bids/update";
 		}
+		log.info("Updating bid, ID: {}", id);
 		bid.setRevisionDate(LocalDateTime.now());
 		bidRepository.save(bid);
+		log.info("Bid updated successfully, ID: {}", id);
 		model.addAttribute("bids", bidRepository.findAll());
 		return "redirect:/bids/list";
 	}
 
 	@GetMapping("/bids/delete/{id}")
 	public String delete(@PathVariable("id") Long id, Model model) {
+		log.info("Deleting bid, ID: {}", id);
 		var bid = bidRepository.findById(id).orElseThrow(() ->
-				new IllegalArgumentException("Invalid bid id:" + id));
+				new IllegalArgumentException("Invalid bid id: " + id));
 		bidRepository.delete(bid);
+		log.info("Bid deleted successfully, ID: {}", id);
 		model.addAttribute("bids", bidRepository.findAll());
 		return "redirect:/bids/list";
 	}

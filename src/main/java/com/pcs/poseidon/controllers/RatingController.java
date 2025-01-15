@@ -28,30 +28,37 @@ public class RatingController {
 
 	@RequestMapping("/ratings/list")
 	public String home(Model model) {
+		log.info("Fetching list of all ratings");
 		model.addAttribute("ratings", ratingRepository.findAll());
 		return "ratings/list";
 	}
 
 	@GetMapping("/ratings/add")
-	public String addForm(Rating rating) {
+	public String addForm() {
+		log.info("Displaying rating add form");
 		return "ratings/add";
 	}
 
 	@PostMapping("/ratings/validate")
 	public String validate(@Valid Rating rating, BindingResult result, Model model) {
 		if (!result.hasErrors()) {
+			log.info("Saving a new rating: {}", rating);
 			ratingRepository.save(rating);
+			log.info("Rating saved successfully");
 			model.addAttribute("ratings", ratingRepository.findAll());
 			return "redirect:/ratings/list";
 		}
+		log.warn("Validation failed for rating: {}", result.getFieldErrors());
 		return "ratings/add";
 	}
 
 	@GetMapping("/ratings/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+		log.info("Fetching rating for update, ID: {}", id);
 		var rating = ratingRepository.findById(id).orElseThrow(() ->
-				new IllegalArgumentException("Invalid rating id:" + id));
+				new IllegalArgumentException("Invalid rating id: " + id));
 		model.addAttribute("rating", rating);
+		log.info("Displaying update form for rating, ID: {}", id);
 		return "ratings/update";
 	}
 
@@ -59,19 +66,23 @@ public class RatingController {
 	public String update(@PathVariable("id") Long id, @Valid Rating rating,
 						 BindingResult result, Model model) {
 		if (result.hasErrors()) {
+			log.warn("Validation errors occurred while updating rating, ID: {}: {}", id, result.getFieldErrors());
 			return "ratings/update";
 		}
-
+		log.info("Updating rating, ID: {}", id);
 		ratingRepository.save(rating);
+		log.info("Rating updated successfully, ID: {}", id);
 		model.addAttribute("ratings", ratingRepository.findAll());
 		return "redirect:/ratings/list";
 	}
 
 	@GetMapping("/ratings/delete/{id}")
 	public String delete(@PathVariable("id") Long id, Model model) {
+		log.info("Deleting rating, ID: {}", id);
 		var rating = ratingRepository.findById(id).orElseThrow(() ->
-				new IllegalArgumentException("Invalid rating id:" + id));
+				new IllegalArgumentException("Invalid rating id: " + id));
 		ratingRepository.delete(rating);
+		log.info("Rating deleted successfully, ID: {}", id);
 		model.addAttribute("ratings", ratingRepository.findAll());
 		return "redirect:/ratings/list";
 	}
