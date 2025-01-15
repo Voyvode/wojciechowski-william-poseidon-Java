@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.pcs.poseidon.domain.Bid;
 
 @Repository
-public interface BidRepository extends JpaRepository<Bid, Integer> {
+public interface BidRepository extends JpaRepository<Bid, Long> {
 
 }

@@ -2,17 +2,18 @@ package com.pcs.poseidon;
 
 import com.pcs.poseidon.domain.Rule;
 import com.pcs.poseidon.repositories.RuleRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
 
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @SpringBootTest
 public class RuleTests {
 
@@ -31,22 +32,22 @@ public class RuleTests {
 
 		// Save
 		rule = ruleRepository.save(rule);
-		Assert.assertNotNull(rule.getId());
-		Assert.assertTrue(rule.getName().equals("Rule Name"));
+		assertNotNull(rule.getId());
+		assertEquals("Rule Name", rule.getName());
 
 		// Update
 		rule.setName("Rule Name Update");
 		rule = ruleRepository.save(rule);
-		Assert.assertTrue(rule.getName().equals("Rule Name Update"));
+		assertEquals("Rule Name Update", rule.getName());
 
 		// Find
 		List<Rule> listResult = ruleRepository.findAll();
-		Assert.assertTrue(listResult.size() > 0);
+		assertFalse(listResult.isEmpty());
 
 		// Delete
 		var id = rule.getId();
 		ruleRepository.delete(rule);
 		Optional<Rule> ruleList = ruleRepository.findById(id);
-		Assert.assertFalse(ruleList.isPresent());
+		assertFalse(ruleList.isPresent());
 	}
 }

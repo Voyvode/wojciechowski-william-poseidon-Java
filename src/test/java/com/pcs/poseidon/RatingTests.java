@@ -2,17 +2,18 @@ package com.pcs.poseidon;
 
 import com.pcs.poseidon.domain.Rating;
 import com.pcs.poseidon.repositories.RatingRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
 
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @SpringBootTest
 public class RatingTests {
 
@@ -29,22 +30,22 @@ public class RatingTests {
 
 		// Save
 		rating = ratingRepository.save(rating);
-		Assert.assertNotNull(rating.getId());
-		Assert.assertTrue(rating.getOrderNumber() == 10);
+		assertNotNull(rating.getId());
+		assertEquals(10L, (long) rating.getOrderNumber());
 
 		// Update
 		rating.setOrderNumber(20L);
 		rating = ratingRepository.save(rating);
-		Assert.assertTrue(rating.getOrderNumber() == 20);
+		assertEquals(20L, (long) rating.getOrderNumber());
 
 		// Find
 		List<Rating> listResult = ratingRepository.findAll();
-		Assert.assertTrue(listResult.size() > 0);
+		assertFalse(listResult.isEmpty());
 
 		// Delete
 		var id = rating.getId();
 		ratingRepository.delete(rating);
 		Optional<Rating> ratingList = ratingRepository.findById(id);
-		Assert.assertFalse(ratingList.isPresent());
+		assertFalse(ratingList.isPresent());
 	}
 }
