@@ -1,8 +1,9 @@
 package com.pcs.poseidon.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -10,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
 	@RequestMapping("/")
-	public String home(Model model) {
-		return "redirect:/bids/list";
-	}
+	public String home(Authentication authentication) {
+		boolean isAdmin = authentication.getAuthorities().stream()
+				.anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
 
-	@RequestMapping("/admin/home")
-	public String adminHome(Model model) {
-		return "redirect:/admin/users/list";
+		if (isAdmin) {
+			return "redirect:/admin/users/list";
+		} else {
+			return "redirect:/bids/list";
+		}
 	}
 
 }

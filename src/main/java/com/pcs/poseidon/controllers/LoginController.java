@@ -28,7 +28,7 @@ public class LoginController {
     public ModelAndView getAllUserArticles() {
         var mav = new ModelAndView();
         mav.addObject("users", userRepository.findAll());
-        mav.setViewName("users/list");
+        mav.setViewName("admin/users/list");
         return mav;
     }
 
@@ -37,7 +37,7 @@ public class LoginController {
         var mav = new ModelAndView();
         var errorMessage= "You are not authorized for the requested data.";
         mav.addObject("errorMsg", errorMessage);
-        mav.setViewName("403");
+        mav.setViewName("error/403");
         return mav;
     }
 
