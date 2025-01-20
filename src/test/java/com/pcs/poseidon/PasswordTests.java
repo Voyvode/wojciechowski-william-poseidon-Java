@@ -4,14 +4,21 @@ import com.pcs.poseidon.validation.PasswordConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 @SpringBootTest
-public class PasswordStrengthTest {
+@AutoConfigureMockMvc
+@ActiveProfiles("local")
+public class PasswordTests {
 
     private PasswordConstraintValidator validator;
     private ConstraintValidatorContext context;
@@ -20,6 +27,18 @@ public class PasswordStrengthTest {
     void setUp() {
         validator = new PasswordConstraintValidator();
         context = mock(ConstraintValidatorContext.class);
+    }
+
+    @Test
+    public void testPassword() {
+        var encoder = new BCryptPasswordEncoder();
+        String rawPassword = "123456";
+
+        String encodedPassword = encoder.encode("123456");
+        assertTrue(encoder.matches(rawPassword, encodedPassword));
+
+        String anotherEncodedPassword = encoder.encode(rawPassword);
+        assertNotEquals(encodedPassword, anotherEncodedPassword);
     }
 
     @Test
