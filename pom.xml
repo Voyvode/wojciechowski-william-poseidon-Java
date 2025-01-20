@@ -12,7 +12,7 @@
     <artifactId>poseidon</artifactId>
     <version>0.1-SNAPSHOT</version>
     <name>Poseidon</name>
-    <description>wojciechowski-william-poseidon-Java</description>
+    <description>A Spring Boot project for managing Poseidon operations</description>
     <url>https://github.com/Voyvode/wojciechowski-william-poseidon-Java</url>
     <developers>
         <developer>
@@ -30,15 +30,14 @@
         <tag>HEAD</tag>
         <url>https://github.com/Voyvode/wojciechowski-william-poseidon-Java</url>
     </scm>
+
     <properties>
         <java.version>17</java.version>
+        <h2.version>2.3.232</h2.version>
     </properties>
+
     <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -63,11 +62,27 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
+
+        <!-- Databases -->
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -83,20 +98,15 @@
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
         </plugins>

@@ -1,5 +1,6 @@
 package com.pcs.poseidon.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +29,7 @@ public class CurvePoint {
 	@Positive
 	Double term;
 
+	@Column(name = "\"value\"")
 	Double value;
 
 	LocalDateTime creationDate;
