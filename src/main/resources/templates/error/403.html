@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Spring Boot</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<h3>Access Denied</h3>
+<div>
+    <p><b th:inline="text" class="user">[[${#authentication.name}]]</b> is not ADMIN.</p>
+    <a href="/" class="btn btn-primary">Back to Home</a>
+</div>
+</body>
+</html>
