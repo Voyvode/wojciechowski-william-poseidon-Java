@@ -36,8 +36,9 @@ public class BidController {
 	}
 
 	@GetMapping("/bids/add")
-	public String addForm() {
+	public String addForm(Model model) {
 		log.info("Displaying bid add form");
+		model.addAttribute("bid", new Bid());
 		return "bids/add";
 	}
 

@@ -34,8 +34,9 @@ public class RatingController {
 	}
 
 	@GetMapping("/ratings/add")
-	public String addForm() {
+	public String addForm(Model model) {
 		log.info("Displaying rating add form");
+		model.addAttribute("rating", new Rating());
 		return "ratings/add";
 	}
 

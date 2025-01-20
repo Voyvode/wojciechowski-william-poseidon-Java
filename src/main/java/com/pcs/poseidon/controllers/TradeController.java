@@ -1,9 +1,7 @@
 package com.pcs.poseidon.controllers;
 
-import com.pcs.poseidon.domain.Trade;
-import com.pcs.poseidon.repositories.TradeRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 
-import java.time.LocalDateTime;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.pcs.poseidon.domain.Trade;
+import com.pcs.poseidon.repositories.TradeRepository;
 
 /**
  * The CRUD controller handling HTTP requests for Trade data management.
@@ -34,8 +36,9 @@ public class TradeController {
     }
 
     @GetMapping("/trades/add")
-    public String add() {
+    public String add(Model model) {
         log.info("Displaying trade add form");
+        model.addAttribute("trade", new Trade());
         return "trades/add";
     }
 

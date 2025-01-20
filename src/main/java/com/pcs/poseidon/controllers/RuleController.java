@@ -1,9 +1,5 @@
 package com.pcs.poseidon.controllers;
 
-import com.pcs.poseidon.domain.Rule;
-import com.pcs.poseidon.repositories.RuleRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +9,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.pcs.poseidon.domain.Rule;
+import com.pcs.poseidon.repositories.RuleRepository;
 
 /**
  * The CRUD controller handling HTTP requests for Rule data management.
@@ -32,8 +34,9 @@ public class RuleController {
     }
 
     @GetMapping("/rules/add")
-    public String addRuleForm() {
+    public String addRuleForm(Model model) {
         log.info("Displaying rule add form");
+        model.addAttribute("rule", new Rule());
         return "rules/add";
     }
 

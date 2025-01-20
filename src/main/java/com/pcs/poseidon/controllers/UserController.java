@@ -1,9 +1,5 @@
 package com.pcs.poseidon.controllers;
 
-import com.pcs.poseidon.domain.User;
-import com.pcs.poseidon.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.pcs.poseidon.domain.User;
+import com.pcs.poseidon.repositories.UserRepository;
 
 /**
  * The CRUD controller handling HTTP requests for managing users.
@@ -29,13 +31,14 @@ public class UserController {
     public String home(Model model) {
         log.info("Fetching list of all users");
         model.addAttribute("users", userRepository.findAll());
-        return "users/list";
+        return "admin/users/list";
     }
 
     @GetMapping("/admin/users/add")
-    public String addUser() {
+    public String addUser(Model model) {
         log.info("Displaying user add form");
-        return "users/add";
+        model.addAttribute("user", new User());
+        return "admin/users/add";
     }
 
     @PostMapping("/admin/users/validate")
@@ -50,7 +53,7 @@ public class UserController {
             return "redirect:/admin/users/list";
         }
         log.warn("Validation failed for user: {}", result.getFieldErrors());
-        return "users/add";
+        return "admin/users/add";
     }
 
     @GetMapping("/admin/users/update/{id}")
@@ -61,14 +64,14 @@ public class UserController {
         user.setPassword(""); // Clear the password for the update form
         model.addAttribute("user", user);
         log.info("Displaying update form for user, ID: {}", id);
-        return "users/update";
+        return "admin/users/update";
     }
 
     @PostMapping("/admin/users/update/{id}")
     public String updateUser(@PathVariable("id") Long id, @Valid User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             log.warn("Validation errors occurred while updating user, ID: {}: {}", id, result.getFieldErrors());
-            return "users/update";
+            return "admin/users/update";
         }
         log.info("Updating user, ID: {}", id);
         var encoder = new BCryptPasswordEncoder();
