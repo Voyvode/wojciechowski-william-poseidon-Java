@@ -1,9 +1,9 @@
 package com.pcs.poseidon.validation;
 
+import java.util.regex.Pattern;
+
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-
-import java.util.regex.Pattern;
 
 /**
  * A validator class that checks if a given password satisfies the required constraints.

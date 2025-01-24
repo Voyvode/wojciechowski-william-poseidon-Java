@@ -2,10 +2,9 @@ package com.pcs.poseidon.config;
 
 import java.sql.SQLException;
 
-import com.pcs.poseidon.domain.User;
 import org.h2.tools.Server;
+
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -20,6 +19,7 @@ import com.pcs.poseidon.domain.CurvePoint;
 import com.pcs.poseidon.domain.Rating;
 import com.pcs.poseidon.domain.Rule;
 import com.pcs.poseidon.domain.Trade;
+import com.pcs.poseidon.domain.User;
 import com.pcs.poseidon.repositories.BidRepository;
 import com.pcs.poseidon.repositories.CurvePointRepository;
 import com.pcs.poseidon.repositories.RatingRepository;
@@ -35,11 +35,11 @@ import com.pcs.poseidon.repositories.UserRepository;
 public class LocalConfig {
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http, ConfigurableWebServerFactory configurableWebServerFactory) throws Exception {
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
 				.authorizeHttpRequests(auth -> {
-						auth.requestMatchers("/admin/**").hasRole("ADMIN");
-						auth.anyRequest().hasAnyRole("ADMIN", "USER");
+					auth.requestMatchers("/admin/**").hasRole("ADMIN");
+					auth.anyRequest().hasAnyRole("ADMIN", "USER");
 				})
 				.formLogin(Customizer.withDefaults())
 				.logout(logout ->

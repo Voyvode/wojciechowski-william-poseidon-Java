@@ -1,9 +1,10 @@
 package com.pcs.poseidon;
 
-import com.pcs.poseidon.domain.Bid;
-import com.pcs.poseidon.repositories.BidRepository;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,14 +13,19 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.pcs.poseidon.domain.Bid;
+import com.pcs.poseidon.repositories.BidRepository;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest
 @Transactional
@@ -50,7 +56,7 @@ public class BidTests {
 	public void testGetAddBidForm() throws Exception {
 		mockMvc.perform(get("/bids/add")
 						.with(user("user").roles("USER")))
-				.andExpect(status().isOk()) //
+				.andExpect(status().isOk())
 				.andExpect(view().name("bids/add"));
 	}
 
@@ -78,10 +84,9 @@ public class BidTests {
 		bid.setBidQuantity(30d);
 		var savedBid = bidRepository.save(bid);
 
-		// Requête GET pour accéder au formulaire de mise à jour
 		mockMvc.perform(get("/bids/update/" + savedBid.getId())
 						.with(user("user").roles("USER")))
-				.andExpect(status().isOk()) // Statut HTTP 200
+				.andExpect(status().isOk())
 				.andExpect(view().name("bids/update"))
 				.andExpect(content().string(containsString("Update Bid")));
 	}
@@ -95,7 +100,7 @@ public class BidTests {
 		var savedBid = bidRepository.save(bid);
 
 		mockMvc.perform(post("/bids/update/" + savedBid.getId())
-							.with(user("user").roles("USER"))
+						.with(user("user").roles("USER"))
 						.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 						.param("id", savedBid.getId().toString())
 						.param("type", "Updated Type")
@@ -119,11 +124,10 @@ public class BidTests {
 		var savedBid = bidRepository.save(bid);
 
 		mockMvc.perform(get("/bids/delete/" + savedBid.getId())
-					.with(user("user").roles("USER")))
+						.with(user("user").roles("USER")))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/bids/list"));
 
-		// Vérifie que le Bid a bien été supprimé
 		assertTrue(bidRepository.findById(savedBid.getId()).isEmpty(), "Bid wasn't deleted");
 	}
 

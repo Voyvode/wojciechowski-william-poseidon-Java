@@ -1,9 +1,10 @@
 package com.pcs.poseidon;
 
-import com.pcs.poseidon.domain.CurvePoint;
-import com.pcs.poseidon.repositories.CurvePointRepository;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,14 +13,19 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.pcs.poseidon.domain.CurvePoint;
+import com.pcs.poseidon.repositories.CurvePointRepository;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest
 @Transactional
@@ -78,7 +84,6 @@ public class CurvePointTests {
 		curvePoint.setValue(30.0);
 		var savedCurvePoint = curvePointRepository.save(curvePoint);
 
-		// Requête GET pour accéder au formulaire de mise à jour
 		mockMvc.perform(get("/curve-points/update/" + savedCurvePoint.getId())
 						.with(user("user").roles("USER")))
 				.andExpect(status().isOk())
@@ -123,7 +128,6 @@ public class CurvePointTests {
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/curve-points/list"));
 
-		// Vérifie que le CurvePoint a bien été supprimé
 		assertTrue(curvePointRepository.findById(savedCurvePoint.getId()).isEmpty(), "CurvePoint wasn't deleted");
 	}
 

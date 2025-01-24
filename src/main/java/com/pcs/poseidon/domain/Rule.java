@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+
 import lombok.Data;
 
 /**
@@ -26,7 +27,7 @@ import lombok.Data;
 public class Rule {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 
 	@NotBlank(message = "Name is mandatory")
