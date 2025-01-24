@@ -11,6 +11,9 @@ import lombok.Data;
 
 import com.pcs.poseidon.validation.ValidPassword;
 
+/**
+ * A user in the Poseidon application.
+ */
 @Entity
 @Table(name = "users")
 @Data

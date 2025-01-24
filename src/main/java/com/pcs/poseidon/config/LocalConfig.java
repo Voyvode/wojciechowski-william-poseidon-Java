@@ -28,12 +28,31 @@ import com.pcs.poseidon.repositories.TradeRepository;
 import com.pcs.poseidon.repositories.UserRepository;
 
 /**
- * Configuration class for setting up a development database.
+ * A Spring configuration class used to set up and initialize the application
+ * in a "local" Spring profile.
+ * <p>
+ * This configuration includes:
+ * <ul>
+ * <li>Security chain definition with rules for user authorization.
+ * <li>Password encoding using BCryptPasswordEncoder.
+ * <li>Starting an internal H2 database server for local development convenience.
+ * <li>Initializing a development database with sample data.
+ * </ul>
  */
 @Configuration
 @Profile("local")
 public class LocalConfig {
 
+	/**
+	 * Configures a SecurityFilterChain bean that defines security settings for HTTP requests.
+	 * Provides authorization rules, form login configuration, and a custom logout flow.
+	 * <p>
+	 * Similar to {@link SpringSecurityConfig} but with CSRF disabled for convenience.
+	 *
+	 * @param http the HttpSecurity object used to configure the security settings
+	 * @return the configured SecurityFilterChain instance
+	 * @throws Exception if an error occurs during the configuration of the SecurityFilterChain
+	 */
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
@@ -52,6 +71,11 @@ public class LocalConfig {
 				.build();
 	}
 
+	/**
+	 * Creates a {@link BCryptPasswordEncoder} instance for encoding and verifying passwords.
+	 *
+	 * @return a configured instance of {@link BCryptPasswordEncoder}
+	 */
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -69,14 +93,14 @@ public class LocalConfig {
 	}
 
 	/**
-	 * Initializes the development database with sample customers and transfers.
+	 * Initializes the development database with sample data.
 	 *
-	 * @param userRepo the repository for managing customers
-	 * @param bidRepo the repository for managing transfers
-	 * @param ruleRepo the repository for managing transfers
-	 * @param tradeRepo the repository for managing transfers
-	 * @param ratingRepo the repository for managing transfers
-	 * @param curvePointRepo the repository for managing transfers
+	 * @param userRepo       the repository for managing users
+	 * @param bidRepo        the repository for managing bids
+	 * @param ruleRepo       the repository for managing rules
+	 * @param tradeRepo      the repository for managing trades
+	 * @param ratingRepo     the repository for managing ratings
+	 * @param curvePointRepo the repository for managing curve points
 	 * @return a CommandLineRunner that populates the database with sample data
 	 */
 	@Bean

@@ -14,15 +14,10 @@ import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 /**
- * Represents a financial trade entity.
+ * An operation performed on a financial product.
  * <p>
- * This class maps to the "trades" table in the database and contains information
- * regarding a specific trade, including its account, type, buy quantity, and timestamps
- * for creation and revision dates. The fields `buyQuantity`, `creationDate`, and
- * `revisionDate` are validated to enforce business rules such as mandatory values
- * and positive quantities.
- * <p>
- * Additional unused data fields are left as comments and are not currently utilized in the application.
+ * Note: Additional unused data fields are intentionally left empty
+ * as they are not currently utilized in the application.
  */
 @Entity
 @Table(name = "trades")

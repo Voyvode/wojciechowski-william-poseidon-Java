@@ -10,6 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pcs.poseidon.repositories.UserRepository;
 
+/**
+ * The controller handling login-related requests, errors handling,
+ * and fetching user-related details.
+ */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("app")

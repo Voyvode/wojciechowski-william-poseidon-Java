@@ -13,6 +13,9 @@ import jakarta.validation.constraints.Positive;
 
 import lombok.Data;
 
+/**
+ * Represents a point on a curve illustrating the value progression of a financial product.
+ */
 @Entity
 @Table(name = "curve_points")
 @Data

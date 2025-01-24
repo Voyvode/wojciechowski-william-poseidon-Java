@@ -18,7 +18,8 @@ import lombok.Data;
  * <p>
  * It includes attributes such as account, type, bid quantities, and aggregates other metadata.
  * <p>
- * Additional unused data fields are left as comments and are not currently utilized in the application.
+ * Note: Additional unused data fields are intentionally left empty
+ * as they are not currently utilized in the application.
  */
 @Entity
 @Table(name = "bids")
