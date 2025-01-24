@@ -1,30 +1,15 @@
-= spring-boot
+image:https://user.oc-static.com/upload/2023/07/19/16897714860057_fr_DA-JAVA_P7-P8-P9_P7-02.png[Poseidon Capital Solutions Logo]
 
-== Technical:
+== Stack
 
-1. Spring Boot 3.1.0
-2. Java 17
-3. Thymeleaf
-4. Bootstrap v.4.3.1
+- **Backend:** Java 17, Spring Boot 3.4.1, JPA, Spring Security
+- **Frontend:** Thymeleaf + Bootstrap v4.3.1
+- **Database:** MariaDB (+ H2 for local)
 
-== Setup with Intellij IDE
+== Work done
 
-1. Create project from Initializr: File > New > project > Spring Initializr
-2. Add lib repository into pom.xml
-3. Add folders
-    - Source root: src/main/java
-    - View: src/main/resources
-    - Static: src/main/resource/static
-4. Create database with name "demo" as configuration in application.properties
-5. Run sql script to create table doc/data.sql
-
-== Implement a Feature
-
-1. Create mapping domain class and place in package com.nnk.springboot.domain
-2. Create repository class and place in package com.nnk.springboot.repositories
-3. Create controller class and place in package com.nnk.springboot.controllers
-
-== Security
-
-1. Create user service to load user from  database and place in package com.nnk.springboot.services
-2. Add configuration class and place in package com.nnk.springboot.config
+- **CRUD**: Implemented https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DA+Java+EN/P7_RESTAPIs/Financial_Entities_POJO.pdf[specified financial entities] with unit tests using Spring Data JPA.
+- **Validation**: Validated data according to https://s3.eu-west-1.amazonaws.com/course.oc-static.com/projects/DAJava_P7/V2/PCS+Trading+App+UI.pdf[provided mockup], and password strength.
+- **User Interface**: Data linked to the frontend.
+- **Security**: Session-based authentication with Spring Security.
+- **Documentation**: Javadoc provided for all authentication and security-related methods.
