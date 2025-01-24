@@ -1,0 +1,21 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Poseidon - Prod" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="prod" />
+    <!-- Les <envs> ne seraient évidemment pas partagées sur GitHub en conditions réelles. -->
+    <envs>
+      <env name="DB_PASSWORD" value="admin" />
+      <env name="DB_URL" value="jdbc:mariadb://localhost:3306/poseidon" />
+      <env name="DB_USERNAME" value="root" />
+    </envs>
+    <module name="wojciechowski-william-poseidon-Java" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.pcs.poseidon.Application" />
+    <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+      <option name="credential" />
+      <option name="region" />
+      <option name="useCurrentConnection" value="false" />
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
